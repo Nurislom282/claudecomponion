@@ -1,0 +1,13 @@
+node_modules/
+.env
+*.env.local
+config/firebase-service-account.json
+config/firebase-config.json
+src/mobile/android/
+src/mobile/ios/
+src/mobile/.expo/
+*.apk
+*.aab
+.DS_Store
+dist/
+build/

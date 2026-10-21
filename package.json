@@ -1,0 +1,14 @@
+{
+  "name": "claude-code-companion",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "backend": "cd src/backend && npm run start",
+    "backend:dev": "cd src/backend && npm run dev",
+    "mobile": "cd src/mobile && npm run start",
+    "mobile:android": "cd src/mobile && npm run android",
+    "build:apk": "cd src/mobile && npx expo prebuild --platform android && cd android && ./gradlew assembleDebug",
+    "bridge": "cd src/backend && npm run bridge",
+    "setup": "cd src/backend && npm install && cd ../mobile && npm install && node ../hooks/setup.js"
+  }
+}
