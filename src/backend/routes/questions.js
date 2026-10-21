@@ -29,10 +29,12 @@ questionsRouter.post('/', async (req, res) => {
 
   await db.collection('questions').doc(questionId).set(doc);
 
-  await db.collection('sessions').doc(sessionId).update({
-    pendingQuestions: (await getPendingCount(db, sessionId, 'questions')) + 1,
-    updatedAt: new Date().toISOString(),
-  });
+  try {
+    await db.collection('sessions').doc(sessionId).update({
+      pendingQuestions: (await getPendingCount(db, sessionId, 'questions')) + 1,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch { /* session may not exist yet */ }
 
   try {
     await sendToTopic('questions', 'Claude needs your input', question, {
@@ -67,10 +69,12 @@ questionsRouter.post('/:id/answer', async (req, res) => {
   });
 
   const sessionId = doc.data().sessionId;
-  await db.collection('sessions').doc(sessionId).update({
-    pendingQuestions: Math.max(0, (await getPendingCount(db, sessionId, 'questions'))),
-    updatedAt: new Date().toISOString(),
-  });
+  try {
+    await db.collection('sessions').doc(sessionId).update({
+      pendingQuestions: Math.max(0, (await getPendingCount(db, sessionId, 'questions'))),
+      updatedAt: new Date().toISOString(),
+    });
+  } catch { /* session may not exist */ }
 
   const updated = { questionId: req.params.id, answer, sessionId };
   req.app.get('wsManager')?.broadcast('question:answered', updated);
@@ -79,16 +83,21 @@ questionsRouter.post('/:id/answer', async (req, res) => {
 
 // Get pending questions
 questionsRouter.get('/pending', async (_req, res) => {
-  const db = getDb();
-  const snapshot = await db
-    .collection('questions')
-    .where('status', '==', 'pending')
-    .orderBy('createdAt', 'desc')
-    .get();
+  try {
+    const db = getDb();
+    const snapshot = await db
+      .collection('questions')
+      .where('status', '==', 'pending')
+      .get();
 
-  const questions = [];
-  snapshot.forEach((doc) => questions.push({ id: doc.id, ...doc.data() }));
-  res.json(questions);
+    const questions = [];
+    snapshot.forEach((doc) => questions.push({ id: doc.id, ...doc.data() }));
+    questions.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+    res.json(questions);
+  } catch (err) {
+    console.error('Error fetching questions:', err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Poll for answer (used by Claude Code hook)

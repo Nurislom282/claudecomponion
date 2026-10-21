@@ -1,7 +1,10 @@
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL
-  || (__DEV__ ? 'http://10.0.2.2:3847' : 'https://your-backend.example.com');
+import { Platform } from 'react-native';
 
-let apiSecret = process.env.EXPO_PUBLIC_API_SECRET || '';
+const BASE_URL = Platform.OS === 'web'
+  ? 'http://localhost:3847'
+  : 'https://claudecomponion.onrender.com';
+
+let apiSecret = '1df346d299f1fafb112b948645208100d81697bf2c04b7d1';
 
 export function setApiSecret(secret: string) {
   apiSecret = secret;
@@ -50,6 +53,17 @@ export const approveAll = () =>
 // Usage
 export const getUsage = () => request<UsageData>('/usage');
 export const getWidgetData = () => request<WidgetData>('/usage/widget');
+
+// Activity
+export const getActivity = (sessionId?: string) =>
+  request<Activity[]>(`/activity${sessionId ? `?sessionId=${sessionId}` : ''}`);
+
+// Session control
+export const endSession = (id: string) =>
+  request(`/sessions/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ status: 'ended' }),
+  });
 
 // Types
 export interface Session {
@@ -104,6 +118,18 @@ export interface WidgetData {
   pendingQuestions: number;
   pendingApprovals: number;
   timestamp: string;
+}
+
+export interface Activity {
+  activityId: string;
+  sessionId: string;
+  type: string;
+  tool: string;
+  message: string;
+  filePath: string;
+  command: string;
+  content: string;
+  createdAt: string;
 }
 
 export interface UsageData {

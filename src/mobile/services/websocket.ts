@@ -2,9 +2,9 @@ import { Platform } from 'react-native';
 
 type EventCallback = (data: any) => void;
 
-const WS_URL = __DEV__
-  ? 'ws://10.0.2.2:3847/ws'
-  : 'wss://your-backend.example.com/ws';
+const WS_URL = Platform.OS === 'web'
+  ? 'ws://localhost:3847'
+  : 'wss://claudecomponion.onrender.com';
 
 class WebSocketService {
   private ws: WebSocket | null = null;

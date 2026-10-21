@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-BACKEND_URL="${CLAUDE_COMPANION_URL:-http://localhost:3847}"
+BACKEND_URL="${CLAUDE_COMPANION_URL:-https://claudecomponion.onrender.com}"
 API_SECRET="${CLAUDE_COMPANION_SECRET:-}"
 SESSION_ID="${CLAUDE_SESSION_ID:-unknown}"
 

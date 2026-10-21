@@ -8,6 +8,7 @@ import { sessionsRouter } from './routes/sessions.js';
 import { questionsRouter } from './routes/questions.js';
 import { approvalsRouter } from './routes/approvals.js';
 import { usageRouter } from './routes/usage.js';
+import { activityRouter } from './routes/activity.js';
 import { authMiddleware } from './middleware/auth.js';
 import { WebSocketManager } from './services/ws-manager.js';
 
@@ -29,13 +30,14 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/questions', questionsRouter);
 app.use('/api/approvals', approvalsRouter);
 app.use('/api/usage', usageRouter);
+app.use('/api/activity', activityRouter);
 
 const wsManager = new WebSocketManager(server);
 app.set('wsManager', wsManager);
 
-server.listen(PORT, () => {
-  console.log(`Claude Companion API running on port ${PORT}`);
-  console.log(`WebSocket available on ws://localhost:${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Claude Companion API running on 0.0.0.0:${PORT}`);
+  console.log(`WebSocket available on ws://0.0.0.0:${PORT}`);
 });
 
 export { app, wsManager };

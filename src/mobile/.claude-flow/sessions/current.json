@@ -1,0 +1,13 @@
+{
+  "id": "session-1792559496033",
+  "startedAt": "2026-10-21T05:11:36.033Z",
+  "cwd": "/Users/a1111/projects/apk/src/mobile",
+  "context": {},
+  "metrics": {
+    "edits": 38,
+    "commands": 0,
+    "tasks": 0,
+    "errors": 0
+  },
+  "restoredAt": "2026-10-21T08:37:55.334Z"
+}

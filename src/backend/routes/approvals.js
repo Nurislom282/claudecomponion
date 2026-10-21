@@ -77,16 +77,21 @@ approvalsRouter.post('/:id/decide', async (req, res) => {
 
 // Get pending approvals
 approvalsRouter.get('/pending', async (_req, res) => {
-  const db = getDb();
-  const snapshot = await db
-    .collection('approvals')
-    .where('status', '==', 'pending')
-    .orderBy('createdAt', 'desc')
-    .get();
+  try {
+    const db = getDb();
+    const snapshot = await db
+      .collection('approvals')
+      .where('status', '==', 'pending')
+      .get();
 
-  const approvals = [];
-  snapshot.forEach((doc) => approvals.push({ id: doc.id, ...doc.data() }));
-  res.json(approvals);
+    const approvals = [];
+    snapshot.forEach((doc) => approvals.push({ id: doc.id, ...doc.data() }));
+    approvals.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+    res.json(approvals);
+  } catch (err) {
+    console.error('Error fetching approvals:', err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Bulk approve all pending

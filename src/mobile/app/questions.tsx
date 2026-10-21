@@ -10,8 +10,8 @@ import {
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getPendingQuestions, answerQuestion, type Question } from '@/services/api';
-import { wsService } from '@/services/websocket';
+import { getPendingQuestions, answerQuestion, type Question } from '../services/api';
+import { wsService } from '../services/websocket';
 
 export default function QuestionsScreen() {
   const [questions, setQuestions] = useState<Question[]>([]);

@@ -35,10 +35,11 @@
           "androidCollapsedTitle": "Claude Companion"
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-asset"
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": false
     }
   }
 }

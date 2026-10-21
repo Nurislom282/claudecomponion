@@ -14,8 +14,8 @@ import {
   decideApproval,
   approveAll,
   type Approval,
-} from '@/services/api';
-import { wsService } from '@/services/websocket';
+} from '../services/api';
+import { wsService } from '../services/websocket';
 
 export default function ApprovalsScreen() {
   const [approvals, setApprovals] = useState<Approval[]>([]);

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029053181595",
+    "project_id": "myproject-51d82",
+    "storage_bucket": "myproject-51d82.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029053181595:android:d5b0788befcee376ed203e",
+        "android_client_info": {
+          "package_name": "com.claudecompanion.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7lns1jGN0YlRNZoGffSveElkkcGru_7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

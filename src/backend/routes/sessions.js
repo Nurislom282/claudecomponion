@@ -25,16 +25,21 @@ sessionsRouter.post('/', async (req, res) => {
 });
 
 sessionsRouter.get('/', async (_req, res) => {
-  const db = getDb();
-  const snapshot = await db
-    .collection('sessions')
-    .orderBy('updatedAt', 'desc')
-    .limit(50)
-    .get();
+  try {
+    const db = getDb();
+    const snapshot = await db
+      .collection('sessions')
+      .limit(50)
+      .get();
 
-  const sessions = [];
-  snapshot.forEach((doc) => sessions.push({ id: doc.id, ...doc.data() }));
-  res.json(sessions);
+    const sessions = [];
+    snapshot.forEach((doc) => sessions.push({ id: doc.id, ...doc.data() }));
+    sessions.sort((a, b) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
+    res.json(sessions);
+  } catch (err) {
+    console.error('Error fetching sessions:', err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 sessionsRouter.get('/:id', async (req, res) => {

@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getUsage, getWidgetData, type UsageData, type WidgetData } from '@/services/api';
+import { getUsage, getWidgetData, type UsageData, type WidgetData } from '../services/api';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
